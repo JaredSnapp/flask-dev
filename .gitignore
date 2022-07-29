@@ -9,11 +9,13 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+bin/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
+include/site/python3.8/
 lib/
 lib64/
 parts/
@@ -127,3 +129,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# vs code 
+*.code-workspace

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='base.css') }}">
+</head>
+
+<body>
+
+<h1>Recruiter stuffs</h1>
+
+<a href="/">Home</a>
+<a href="/old/">Old Home</a>
+<a href="/old/addRecruiter">Add Recruiter</a>
+
+{% block content %}
+{% endblock content %}
+
+{% block other_content %}
+{% endblock other_content %}
+
+
+</body>
+</html>

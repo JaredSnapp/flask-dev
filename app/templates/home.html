@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<ul>
+    <table class="table-style">
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+        </tr>
+        {% for recruiter in recruiters %}
+        <tr>
+            <td>{{ recruiter.name }}</td>
+            <td>{{ recruiter.phone }}</td>
+        </tr>
+        {% endfor %}
+    </table >
+</ul>
+{% endblock %}

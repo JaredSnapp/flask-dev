@@ -5,11 +5,11 @@
 <h1>Add Recruiter Info</h1>
 
 <form action="" method="post">
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" value=""><br>
-    <label for="phone">Phone Number</label><br>
-    <input type="text" id="phone" name="phone" value=""><br><br>
-    <input type="submit" value="Submit">
+    {{ form.csrf_token }}
+    {{ form.first_name }}
+    {{ form.last_name }}
+    {{ form.phone }}
+    {{ form.submit }}
 </form>
 
 {% endblock %}

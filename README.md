@@ -16,3 +16,18 @@
 
 Development mode: (enter in terminal before running 'flask run')
 - `export FLASK_ENV=development`
+
+
+
+# tools used:
+
+## Database:
+Initialize database:
+- `flask db init`
+update database:
+- `flask db migrate -m 'Migration message'`
+- `flask db upgrade`
+
+
+
+

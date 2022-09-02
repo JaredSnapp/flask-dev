@@ -1,10 +1,16 @@
-from app import create_app, db
+from app import createApp, db
 
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+#from flask_script import Manager
+#from flask_migrate import Migrate, MigrateCommand
 
+from flask.cli import FlaskGroup
+from myapp import app
 
-app = create_app()
+app = createApp()
+cli = FlaskGroup(app)
+
+'''
+app = createApp()
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 migrate = Migrate(app, db)
@@ -25,6 +31,9 @@ def resetdb():
     db.drop_all()
     db.create_all()
 
+'''
+
 
 if __name__ == "__main__":
-    manager.run()
+    #manager.run()
+    cli()

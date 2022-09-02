@@ -7,11 +7,13 @@
         <tr>
             <th>Name</th>
             <th>Phone</th>
+            <th></th>
         </tr>
         {% for recruiter in recruiters %}
         <tr>
-            <td>{{ recruiter.name }}</td>
+            <td>{{ recruiter.first_name }} {{ recruiter.last_name }}</td>
             <td>{{ recruiter.phone }}</td>
+            <td><button>edit</button></td>
         </tr>
         {% endfor %}
     </table >

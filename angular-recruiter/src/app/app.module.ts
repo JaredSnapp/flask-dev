@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { RecruiterListComponent } from './components/recruiter-list/recruiter-list.component';
 import { RecruiterComponent } from './components/recruiter/recruiter.component';
 import { AddRecruiterComponent } from './components/add-recruiter/add-recruiter.component';
+import { RecruiterDetailsComponent } from './components/recruiter-details/recruiter-details.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { AddRecruiterComponent } from './components/add-recruiter/add-recruiter.
     HeaderComponent,
     RecruiterListComponent,
     RecruiterComponent,
-    AddRecruiterComponent
+    AddRecruiterComponent,
+    RecruiterDetailsComponent
   ],
   imports: [
     BrowserModule,

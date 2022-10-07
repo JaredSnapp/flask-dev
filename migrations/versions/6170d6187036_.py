@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6369b24987a0
+Revision ID: 6170d6187036
 Revises: 
-Create Date: 2022-08-25 18:10:20.290395
+Create Date: 2022-10-07 13:33:39.194822
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6369b24987a0'
+revision = '6170d6187036'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('note',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('body', sa.Text(), nullable=True),
-    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('last_modified', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -32,7 +32,7 @@ def upgrade():
     sa.Column('status', sa.String(length=80), nullable=True),
     sa.Column('last_contact', sa.DateTime(), nullable=True),
     sa.Column('phone', sa.String(length=20), nullable=True),
-    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('last_modified', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('first_name'),
@@ -43,7 +43,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=80), nullable=False),
     sa.Column('phone', sa.String(length=20), nullable=False),
-    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('last_modified', sa.DateTime(timezone=True), nullable=True),
     sa.Column('recruiter_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['recruiter_id'], ['recruiter.id'], ),
@@ -57,7 +57,7 @@ def upgrade():
     sa.Column('name', sa.String(length=80), nullable=False),
     sa.Column('salary_low', sa.Integer(), nullable=True),
     sa.Column('salary_high', sa.Integer(), nullable=True),
-    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('last_modified', sa.DateTime(timezone=True), nullable=True),
     sa.Column('company_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),

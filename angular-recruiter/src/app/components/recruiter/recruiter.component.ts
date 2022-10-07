@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { emitDistinctChangesOnlyDefaultValue } from '@angular/compiler';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-recruiter',
@@ -7,10 +8,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RecruiterComponent implements OnInit {
     @Input() recruiter:any;
+    @Output() btnClick = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  expandClick() {
+    this.btnClick.emit(this.recruiter);
+    return this.recruiter;
   }
 
 }

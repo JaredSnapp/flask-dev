@@ -1,0 +1,6 @@
+mysql_host: 'localhost'
+mysql_user: "root"
+mysql_password: "asdf1234"
+mysql_db: "recruit"
+
+secret_key: "flnRHNvpdUbDluFCiUHliVy501d1GCeg"

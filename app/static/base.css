@@ -67,13 +67,16 @@ html, body {
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 30%;
+    
 }
 
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 tr:nth-child(even) {

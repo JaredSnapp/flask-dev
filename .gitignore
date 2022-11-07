@@ -133,3 +133,6 @@ dmypy.json
 
 # vs code 
 *.code-workspace
+
+# config file:
+config.yaml

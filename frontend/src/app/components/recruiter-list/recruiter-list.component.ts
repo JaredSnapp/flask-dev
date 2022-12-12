@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Recruiter, Company } from "../../Recruiter"
+import { Recruiter, Company } from "../../models"
 
 @Component({
   selector: 'app-recruiter-list',

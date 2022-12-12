@@ -1,10 +1,11 @@
 from flask import Flask, Blueprint, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
+from flask_cors import CORS, cross_origin
 from random import randint
 import json
 
-from .models import Recruiter, Job
+from .models import Recruiter, Job, Company
 from .forms import RecruiterForm
 from app import db
 
@@ -58,13 +59,49 @@ def getRecruiter(id):
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
 
-@base.route("/api/getRecruiterJobs/<int:id>", methods=['GET'])
-def getRecruiterJobs(id):
-    try:
-        jobs = Job.query.filter_by(recruiter_id=id)
-        result = [jobs.serialize() for job in jobs]
-        return json.dumps(result)
-    except Exception as e:
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
+@base.route("/api/getRecruiterJobs/<int:id>", methods=['GET', 'POST', 'DELETE'])
+def getRecruiterJobs(id): 
+    if request.method == 'POST':
+        print(f"Adding job to recruiter id: {id}")
+        data = request.data
+        data = json.loads(data.decode('utf-8'))
+        jobId = addJob(data)
+        print(f"done adding new job (id: {jobId}) to database")
+        return request.data
+    elif request.method == 'DELETE':
+        print(f"delete {id} requested. Functionality not available yet.")
+        # get company id
+        # delete job
+        #res = Jobs.delete.filter(id=id)
+        # check if company id is used elsewhere in job table
+        # if not, delete company id
+    else: 
+        try:
+            jobs = Job.query.filter_by(recruiter_id=id)
+            result = [job.serialize() for job in jobs]
+            return json.dumps(result)
+        except Exception as e:
+            error_text = "<p>The error:<br>" + str(e) + "</p>"
+            hed = '<h1>Something is broken.</h1>'
+            return hed + error_text
+
+
+def addJob(data):
+    # check if company name exists
+    company = Company.query.filter_by(name=data['company']).one_or_none()
+    if company is None:
+        newComp = Company(data['company'])
+        db.session.add(newComp)
+        db.session.commit()
+        company = Company.query.filter_by(name=data['company'])
+        comp_id = newComp.id
+    else:
+        comp_id = company.id
+
+    newJob = Job(data['name'], data['salary_low'], data['salary_high'], comp_id, int(data['recruiter_id']))
+    db.session.add(newJob)
+    db.session.commit()
+
+    return newJob.id
+    
+

@@ -1,0 +1,32 @@
+<br>
+<br>
+<div class="indent">
+    <form [formGroup]="myForm">
+        <!--Value: {{ myForm.value | json }} <br> -->
+        <h2>Add Job</h2>
+        <hr>
+        
+        <mat-form-field>
+            <input matInput placeholder="Name" formControlName="name">
+        </mat-form-field> 
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Salary Low" formControlName="salary_low">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Salary High" formControlName="salary_high">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Company" formControlName="company">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Recruiter ID" formControlName="recruiter_id">
+        </mat-form-field>
+        <br>
+
+        <button mat-raised-button [disabled]="myForm.invalid" color="primary" (click)="onSubmit()">Submit</button>
+    </form>
+</div>

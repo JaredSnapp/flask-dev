@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Recruiter, Company } from "../../models"
+import { RecruiterService } from "../../services/recruiter.service"
+import { Job, Recruiter, Company } from "../../models/models"
+
+
 
 @Component({
   selector: 'app-recruiter-list',
@@ -7,24 +10,30 @@ import { Recruiter, Company } from "../../models"
   styleUrls: ['./recruiter-list.component.css']
 })
 export class RecruiterListComponent implements OnInit {
-  @Input() recruiters: any;
-  recruiterList: any;
-  constructor() { }
+  recruiterList: Recruiter[];
+  jobList: Job[];
+  constructor(private recruiterService: RecruiterService) {
+    this.recruiterList = [];
+    this.jobList = [];
+  }
 
   ngOnInit(): void {
-    this.recruiterList = this.recruiters.map((ele:any) => {
-        return { recruiter: ele,
-        expand: false};
-    })
-    console.log(this.recruiterList[0].recruiter.firstName);
-    console.log(this.recruiterList[0].expand);
+    this.recruiterService.get_recruiters().subscribe((recruiters) => {
+      this.recruiterList = <Recruiter[]>recruiters;
+      console.log(this.recruiterList);
+    });
   }
 
   expandClick(recruiter:any) {
-    const index = this.recruiterList.filter((ele:any) => {return ele.recruiter.id === recruiter.id});
+    /*const index = this.recruiterList.filter((ele:any) => {return ele.recruiter.id === recruiter.id});
     if (index) {
         index[0].expand = index[0].expand ? false : true;
-    }
+        this.recruiterService.get_jobs(recruiter.id).subscribe((jobs) => {
+          this.jobList = jobs;
+          index[0].jobs = jobs;
+        });
+    } */
+    
   }
 
 }

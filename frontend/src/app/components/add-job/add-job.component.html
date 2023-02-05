@@ -1,10 +1,7 @@
-<br>
-<br>
+<h2>{{ this.headerText }}</h2>
 <div class="indent">
     <form [formGroup]="myForm">
         <!--Value: {{ myForm.value | json }} <br> -->
-        <h2>Add Job</h2>
-        <hr>
         
         <mat-form-field>
             <input matInput placeholder="Name" formControlName="name">
@@ -22,11 +19,13 @@
             <input matInput placeholder="Company" formControlName="company">
         </mat-form-field>
         <br>
-        <mat-form-field>
+        <mat-form-field *ngIf="!this.hideRecruiterId">
             <input matInput placeholder="Recruiter ID" formControlName="recruiter_id">
         </mat-form-field>
         <br>
-
-        <button mat-raised-button [disabled]="myForm.invalid" color="primary" (click)="onSubmit()">Submit</button>
     </form>
+    <div class="buttons">
+        <button class="mat-raised-button" (click)="close()">Close</button>
+        <button mat-raised-button [disabled]="myForm.invalid" color="primary" (click)="onSubmit()">Submit</button>
+    </div>
 </div>

@@ -1,0 +1,21 @@
+.recruiter-details {
+    display: flex;
+    align-items: space-between;
+    gap: 3em;
+
+    background-color: #f1f1f1;
+    padding: 0em;
+    margin: 0.1em;
+    margin-left: 1em;
+}
+
+.edit-buttons  {
+    margin-left: 4em;
+}
+
+.edit-buttons i {
+    display: inline-flex;
+    padding: 0.5em;
+    align-items: center;
+    justify-content: center;
+}

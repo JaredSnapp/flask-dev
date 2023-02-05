@@ -1,6 +1,22 @@
 <h1>{{ title }}</h1>
 
+<div class="nav-container">
+    <ul class="horizontal">
+        <li><a routerLink="home">Home</a></li>
+        <li><a routerLink="#">Add Recruiter</a></li>
+        <li><a routerLink="addJob">Add Job</a></li>
+    </ul>
+</div>
+
+
+<div>
+    <router-outlet></router-outlet>
+</div>
+
+
+<!--
 <app-header></app-header>
 <app-recruiter-list [recruiters]="this.recruiterList"></app-recruiter-list>
 
-<app-add-job></app-add-job>
+<app-add-job></app-add-job> 
+-->

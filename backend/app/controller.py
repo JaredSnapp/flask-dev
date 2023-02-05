@@ -15,23 +15,44 @@ base = Blueprint('base', __name__, url_prefix='/', template_folder='templates')
 @base.route('/')
 def testdb():
     try:
-        recruiters = Recruiter.query.all()
-        return render_template('home.html', recruiters=recruiters)
+        #recruiters = Recruiter.query.all()
+        return render_template('index.html')
     except Exception as e:
         error_text = "<p>The error:<br>" + str(e) + "</p>"
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
 
 
-@base.route("/addRecruiter", methods=['GET', 'POST'])
-def addRecruiter():
+'''
+@base.route('/')
+def testdb():
+    try:
+        recruiters = Recruiter.query.all()
+        return render_template('index.html', recruiters=recruiters)
+    except Exception as e:
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+'''
+
+@base.route("/add-recruiter", methods=['GET', 'POST'])
+def add_recruiter():
     form = RecruiterForm()
 
     if form.validate_on_submit():
-        newRecruiter = Recruiter(first_name=form.first_name.data, last_name=form.last_name.data, phone=form.phone.data)
+
+        newRecruiter = Recruiter(
+            first_name=form.first_name.data, 
+            last_name=form.last_name.data, 
+            phone=form.phone.data
+        )
+
+        # Try this newRecruiter = Recruiter(**form)
+
         db.session.add(newRecruiter)
         db.session.commit()
         return redirect('/')
+        # return redirect(render_template('home'))
 
     return render_template('addRecruiter.html', form=form)
 
@@ -48,6 +69,7 @@ def recruiterInfo():
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
 
+
 @base.route("/api/getRecruiter/<int:id>", methods=['GET'])
 def getRecruiter(id):
     try:
@@ -59,32 +81,71 @@ def getRecruiter(id):
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
 
-@base.route("/api/getRecruiterJobs/<int:id>", methods=['GET', 'POST', 'DELETE'])
+# refactor endpoint to be specific the the method
+@base.route("/api/recruiterJobs/<int:id>", methods=['GET'])
 def getRecruiterJobs(id): 
-    if request.method == 'POST':
+    try:
+        jobs = Job.query.filter_by(recruiter_id=id)
+        result = [job.serialize() for job in jobs]
+        return json.dumps(result)
+    except Exception as e:
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+
+
+@base.route("/api/recruiterJobs/<int:id>", methods=['POST'])
+def postRecruiterJobs(id): 
+    try:
         print(f"Adding job to recruiter id: {id}")
         data = request.data
         data = json.loads(data.decode('utf-8'))
         jobId = addJob(data)
+        data['id'] = jobId
         print(f"done adding new job (id: {jobId}) to database")
+        return data
+    except Exception as e:
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed+error_text
+
+@base.route("/api/recruiterJobs/<int:id>", methods=['PUT'])
+def putRecruiterJobs(id): 
+    try:
+        print("Put request")
+        data = request.data
+        data = json.loads(request.data.decode('utf-8'))
+        job = Job.query.filter_by(id=id).first()
+        job.name = data['name']
+        job.salary_low = data['salary_low']
+        job.salary_high = data['salary_high']
+        db.session.commit()
         return request.data
-    elif request.method == 'DELETE':
+    except Exception as e:
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed+error_text
+
+@base.route("/api/recruiterJobs/<int:id>", methods=['DELETE'])
+def deleteRecruiterJobs(id): 
+    try:
         print(f"delete {id} requested. Functionality not available yet.")
         # get company id
         # delete job
-        #res = Jobs.delete.filter(id=id)
-        # check if company id is used elsewhere in job table
+        res = Job.query.filter_by(id=id).delete()
+        db.session.commit()
+        print(f"deleted job {id}")
+        # TODO: check if company id is used elsewhere in job table
         # if not, delete company id
-    else: 
-        try:
-            jobs = Job.query.filter_by(recruiter_id=id)
-            result = [job.serialize() for job in jobs]
-            return json.dumps(result)
-        except Exception as e:
-            error_text = "<p>The error:<br>" + str(e) + "</p>"
-            hed = '<h1>Something is broken.</h1>'
-            return hed + error_text
-
+        companyUsed = Job.query.filter_by(company_id=data['company']).one_or_none()
+        if companyUsed is None:
+            #delete company
+            pass
+        return request.data
+    except Exception as e:
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed+error_text
 
 def addJob(data):
     # check if company name exists
@@ -97,7 +158,6 @@ def addJob(data):
         comp_id = newComp.id
     else:
         comp_id = company.id
-
     newJob = Job(data['name'], data['salary_low'], data['salary_high'], comp_id, int(data['recruiter_id']))
     db.session.add(newJob)
     db.session.commit()

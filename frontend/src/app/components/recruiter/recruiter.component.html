@@ -1,8 +1,17 @@
 <div class="recruiter">
-    <button (click)="expandClick()">Expand</button>
-    <p>{{ this.recruiter.firstName }} {{ this.recruiter.lastName }}</p>
+    <i class="material-icons" *ngIf="!expand" (click)="expandClick()">chevron_right</i>
+    <i class="material-icons" *ngIf="expand" (click)="expandClick()">expand_more</i>
+    <p>{{ this.recruiter.first_name }} {{ this.recruiter.first_name }}</p>
     <p>{{ this.recruiter.active ? "active" : "inactive" }}</p>
-    <p>{{ this.recruiter.phoneNumber }}</p>
-    <p>{{ this.recruiter.company }}</p>
+    <p>{{ this.recruiter.phone }}</p>
+    <p>{{ this.recruiter.created }}</p>
+</div>
+<div>
+    <div *ngIf="this.expand">
+        <div *ngFor="let job of this.jobList">
+            <app-job-details [job]="job" (editBtn)="editJob($event)" (deleteBtn)="deleteJob($event)"></app-job-details>
+        </div>
+        <button mat-raised-button color="primary" (click)="addJob()">Add Job</button>
+    </div>
 </div>
 

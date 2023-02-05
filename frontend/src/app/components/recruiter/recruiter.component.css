@@ -6,4 +6,28 @@
     background-color: #f1f1f1;
     padding: 0.1em;
     margin: 0.1em;
+    align-items: center;
+    justify-content: left;
+}
+
+.recruiter i {
+    padding: 0.25em;
+}
+
+.recruiter i:hover {
+    background-color: gray;
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48;
+
+}
+
+button {
+    margin: 1em;
 }

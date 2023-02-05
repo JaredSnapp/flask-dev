@@ -1,6 +1,3 @@
 <div *ngFor="let recruiter of this.recruiterList">
-    <app-recruiter [recruiter]="recruiter.recruiter" (btnClick)="expandClick($event)"></app-recruiter>
-    <div *ngIf="recruiter.expand">
-        <app-recruiter-details [recruiter]="recruiter.recruiter"></app-recruiter-details>
-    </div>
+    <app-recruiter [recruiter]="recruiter" (btnClick)="expandClick($event)"></app-recruiter>
 </div>

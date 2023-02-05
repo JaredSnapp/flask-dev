@@ -1,8 +1,9 @@
 import { keyframes } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { RecruiterService } from "../../services/recruiter.service";
+import { Job } from 'src/app/models/models';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-add-job',
@@ -10,10 +11,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./add-job.component.css']
 })
 export class AddJobComponent implements OnInit {
+  @Input() recruiterIdInput: any;
+  @Input() editJob: boolean = false;
+  @Input() jobData!: Job;
+  hideRecruiterId: boolean = false; 
+  headerText: string = "Add Job";
+
   addJobData = {};
   myForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { 
+  constructor(private fb: FormBuilder, private recruiterService: RecruiterService, @Inject(MAT_DIALOG_DATA) public data:any, private dialogRef: MatDialogRef <AddJobComponent>) { //, @Inject(MAT_DIALOG_DATA) public data:any) { 
     this.myForm = this.fb.group({
       name: ['',[Validators.required]],
       salary_low: ['',[Validators.required,
@@ -32,28 +39,59 @@ export class AddJobComponent implements OnInit {
 
   ngOnInit(): void {
     //this.myForm.valueChanges.subscribe(console.log)
+    console.log(`add Job to recruiter: ${this.recruiterIdInput}`);
+    console.log(this.recruiterIdInput);
+
+    this.recruiterIdInput = this.data.recruiterIdInput;
+    this.jobData = this.data.jobData;
+    this.editJob = this.data.editJob;
+
+    if(this.editJob) {
+      this.headerText = "Edit Job";
+      this.myForm.patchValue(this.jobData);
+    }
+
+    if (this.recruiterIdInput) {
+      this.hideRecruiterId = true;
+      let data = {
+        recruiter_id: this.recruiterIdInput,
+      };
+      this.myForm.patchValue(data);
+    }
   }
 
+  close() {
+    this.dialogRef.close();
+  }
   
 
   onSubmit() {
-
     console.log("Submitting Form");
-    const headers = { 'content-type': 'application/json'}
-    //console.log(this.myForm.value);
-    let res = this.myForm.value;
+    if(this.editJob) { 
+      let data = this.myForm.value;
+      data.id = this.jobData.id;
+      this.recruiterService.edit_job(this.myForm.value).subscribe((data:any) => {
+        console.log("add job done");
+        console.log(data);
+        this.dialogRef.close(data);
+      });
+    }
+    else {
+      this.recruiterService.add_job(this.myForm.value).subscribe((data:any) => {
+        console.log("add job done");
+        console.log(data);
+        this.dialogRef.close(data);
+      });
+    }
 
-    //let data = {}
-    this.http.post("http://127.0.0.1:5000/api/getRecruiterJobs/1", res, {'headers':headers})
-      .subscribe((data:any) => {console.log(data)})
-    this.myForm.value.name = "";
-    this.myForm.value.salary_low = "";
-    this.myForm.value.salary_high = "";
-    this.myForm.value.company = "";
-    this.myForm.value.recruiter_id = null;
-
-    
-
+    let blank = {
+      name: '',
+      salary_low: '',
+      salary_high: '',
+      company: '',
+      recruiter_id: null,
+    };
+    //this.myForm.setValue(blank);
   }
 
 }

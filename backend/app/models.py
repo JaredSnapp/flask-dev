@@ -20,6 +20,10 @@ class Recruiter(db.Model):
     last_modified = Column(DateTime(timezone=True), onupdate=func.now())
 
     def serialize(self):
+        #{col.name: getattr(self, col.name) for col in self.__table__.columns}
+        dict(row.__dict__); dictret.pop('_sa_instance_state', None)
+        #for u in session.query(User).all():
+        #    print u.__dict__
         dic = {
             "id": self.id,
             "first_name": self.first_name,
@@ -31,6 +35,12 @@ class Recruiter(db.Model):
             "created": self.created.strftime("%m/%d/%Y"),
             "last_modified": ""
         }
+        print("current dict:")
+        print(dic)
+        print("new method:")
+        dic = self.__dict__
+        dic.pop('_sa_instance_state', None)
+        print(self.__dict__)
         if self.last_modified:
             dic["last_modified"] = self.last_modified.strftime("%m/%d/%Y")
         if self.inactive_date:
@@ -88,10 +98,11 @@ class Job(db.Model):
 
     def serialize(self):
         dic = {
+            "id": self.id,
             "name": self.name,
             "salary_low": self.salary_low,
             "salary_high": self.salary_high,
-            #"company": self.company,
+            "company": self.company.name,
             "company_id": self.company_id,
             "inactive_date": "",
             "created": self.created.strftime("%m/%d/%Y"),

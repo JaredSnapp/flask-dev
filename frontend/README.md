@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.1.
 
+## Running on Flask server
+Run `ng build --base-href /static/`.
+Copy `.js` and `.css` files to `static` folder `backend/app/static`
+Copy `.html` files to `templates` folder `backend/app/templates`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

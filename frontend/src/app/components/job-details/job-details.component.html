@@ -1,0 +1,11 @@
+<div class="recruiter-details">
+    <div >
+        <p> {{ this.job.name }} - {{ this.job.company }}</p>
+        <p> Salary Range: {{ this.job.salary_low }} - {{ this.job.salary_high }}</p>
+    </div>
+    <div class="edit-buttons">
+        <i class="material-icons" (click)="editButton($event)">edit</i>
+        <i class="material-icons" (click)="deleteButton($event)">delete</i>
+    </div>
+</div>
+

@@ -1,0 +1,23 @@
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+.bar {
+    background-color: red;
+    height: 4px;
+    width: 20px;
+    border-radius: 0%;
+}
+
+.marker {
+    background-color: red;
+    height: 30px;
+    width: 4px;
+    border-radius: 20%;
+}
